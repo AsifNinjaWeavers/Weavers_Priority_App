@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_app/Controller/priority_controller.dart';
 
 import '../../Model/task.dart';
 import '../../widget/CustomDismissible.dart';
 
-class UpcomingItemView extends StatefulWidget {
-  const UpcomingItemView({super.key});
+class Overdues extends StatefulWidget {
+  const Overdues({super.key});
 
   @override
-  State<UpcomingItemView> createState() => _UpcomingItemViewState();
+  State<Overdues> createState() => _OverduesState();
 }
 
-class _UpcomingItemViewState extends State<UpcomingItemView> {
+class _OverduesState extends State<Overdues> {
    Box<Task>? taskbox;
   @override
   void initState() {
@@ -21,7 +23,10 @@ class _UpcomingItemViewState extends State<UpcomingItemView> {
   }
   @override
   Widget build(BuildContext context) {
-        return ValueListenableBuilder(
+    return Container(
+        // color: Colors.red,
+        padding: const EdgeInsets.all(10),
+        child: ValueListenableBuilder(
           valueListenable: taskbox!.listenable(),
           builder: (BuildContext context, value, _) {
             return ListView.builder(
@@ -31,30 +36,22 @@ class _UpcomingItemViewState extends State<UpcomingItemView> {
               shrinkWrap: true,
               itemCount: value.length,
               itemBuilder: (contexta, index) {
-                 final items = value.getAt(index);
-                //  debugPrint(items!.taskkey!);
-                if(items!.archived==false && items.completed==false && PriorityController.checkupcoming(items.datetime)==true)
-                {
-                   return  Column(
-                      children: [
-                        CustomDismissible(taskbox: taskbox, items: items,archived: true,),
-                        const SizedBox(height: 5,)
-
-                      ],
-                    );
-                }
-                else
-                {
+                final items = value.getAt(index);
+                if (items!.completed==false&&PriorityController.checkoverdue(items.datetime) == true) {
+                  return Column(
+                    children: [
+                       CustomDismissible(taskbox: taskbox, items: items,archived: false,),
+                      const SizedBox(
+                        height: 5,
+                      )
+                    ],
+                  );
+                } else {
                   return SizedBox();
                 }
-                  
               },
-                  
-                
             );
-           
           },
-        );
+        ));
   }
 }
-

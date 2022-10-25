@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:to_do_app/Constant/textConstant.dart';
 import 'package:to_do_app/Model/task.dart';
 import 'package:to_do_app/View/Priorities/upcomingitemview.dart';
+import 'package:uuid/uuid.dart';
 
 class UpcimngTask extends StatefulWidget {
   const UpcimngTask({
@@ -48,14 +49,15 @@ class _UpcimngTaskState extends State<UpcimngTask> {
                   ),
                 )
               : Container(
+              
                 width: MediaQuery.of(context).size.width/1.1,
                 height: 25,
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Row(
                   children: [
-                    SizedBox(
+                    Container(
                        height: 25,
-                      width: MediaQuery.of(context).size.width/1.35,
+                      width: MediaQuery.of(context).size.width/1.40,
                       child: TextFormField(
                         
                           style: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.black,fontSize: 15),
@@ -66,17 +68,20 @@ class _UpcimngTaskState extends State<UpcimngTask> {
                               hintStyle: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.black,fontSize: 15),),
                         ),
                     ),
-                    const SizedBox(width: 10,),
+                    const SizedBox(width: 2,),
                     SizedBox(
                       height: 25,
                       width: MediaQuery.of(context).size.width/15.5,
                       child:  IconButton(
-                          padding: EdgeInsets.all(2),
-                onPressed: (){
+                             padding: EdgeInsets.all(0),
+                onPressed: ()async {
+                  DateTime? date=await pickdateTime();
+                  var uuid = Uuid();
+                  var v4 = uuid.v4();
+                  var task= Task(tasktext: widget.taskController.text.toString(), datetime: date, completed: false,taskkey:v4.toString() ,archived: false);
+                  taskbox?.put(v4, task);
+                  debugPrint(task.datetime.toString());
                   setState(() {
-                   String datetime=DateTime.now().toString();
-                  var task=Task(tasktext: widget.taskController.text.toString(), datetime: DateTime.now(), completed: false,taskkey:datetime,archived: false);
-                  taskbox?.put(datetime, task);
                    _hide=false;
                     widget.taskController.clear();
                   });
@@ -96,4 +101,22 @@ class _UpcimngTaskState extends State<UpcimngTask> {
       ),
     );
   }
+  Future<DateTime?>pickdateTime()async {
+    DateTime? date=await pickdate();
+    if(date==null)
+    {
+      return null;
+    }
+    else
+    {
+      TimeOfDay? time=await picktime();
+      if(time==null)
+      {
+        return DateTime(date.year,date.month,date.day);
+      }
+      return DateTime(date.year,date.month,date.day,time.hour,time.minute);
+    }
+  }
+  Future<DateTime?>pickdate()=>showDatePicker(context: context, initialDate: DateTime.now(), firstDate:  DateTime(2000), lastDate:  DateTime(2050));
+  Future<TimeOfDay?>picktime()=>showTimePicker(context: context, initialTime:TimeOfDay(hour:  DateTime.now().hour, minute: DateTime.now().minute));
 }

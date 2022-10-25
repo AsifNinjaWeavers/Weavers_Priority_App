@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:to_do_app/Constant/textConstant.dart';
 import 'package:to_do_app/View/Priorities/archived.dart';
 import 'package:to_do_app/View/Priorities/complete.dart';
+import 'package:to_do_app/View/Priorities/overdues.dart';
 import 'package:to_do_app/View/Priorities/upcomingatsk.dart';
 
 import '../../Model/task.dart';
@@ -49,22 +50,19 @@ class _TaskAddState extends State<TaskAdd> with TickerProviderStateMixin{
 
               Text('My Priorities',style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 15),),
               TabBar(
-                // isScrollable: true,
                 controller: tabController,
-                labelColor: Colors.black,
+                labelColor: Colors.black,      
                 unselectedLabelColor: Colors.black45,
-                unselectedLabelStyle: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 13,),
-                labelStyle: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 13,),
-                indicatorColor: Colors.black,
+                unselectedLabelStyle: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 10,),
+                labelStyle: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 10,),
+                indicatorColor: const Color.fromARGB(255, 71, 151, 226),
                 tabs: [
                   Tab(text:TextConstant.archived,),
                   Tab(text:TextConstant.upcoming,),
                   Tab(text: TextConstant.overdue,),
                   Tab(text: TextConstant.completed,),
                 ],
-                ),Container(
-                  //  padding: EdgeInsets.all(4),
-                  // color: Colors.black,
+                ),SizedBox(                 
                   height: 300,
                   width: MediaQuery.of(context).size.width / 1.02,
                   child: TabBarView(
@@ -76,11 +74,10 @@ class _TaskAddState extends State<TaskAdd> with TickerProviderStateMixin{
                       SingleChildScrollView(
                         child: UpcimngTask(taskController: taskController),
                       ),
-                      Container(
-                        color: Colors.orange,
+                      const SingleChildScrollView(
+                        child: Overdues(),
                       ),
                        const SingleChildScrollView(
-                        // color: Colors.pink,
                         child: CompleteTask(),
                       ),
                     ],

@@ -70,7 +70,7 @@ class CustomDismissible extends StatelessWidget {
               //  color: Colors.black,
                 height: MediaQuery.of(context).size.height / 31.82,
                 width: MediaQuery.of(context).size.width / 1.35,
-                child: Text(items!.tasktext)),
+                child: Text(items!.tasktext,style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 18),)),
             const SizedBox(
               width: 5,
             ),
