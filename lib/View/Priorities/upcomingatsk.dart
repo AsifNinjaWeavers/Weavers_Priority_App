@@ -52,12 +52,13 @@ class _UpcimngTaskState extends State<UpcimngTask> {
               
                 width: MediaQuery.of(context).size.width/1.1,
                 height: 25,
-                padding: const EdgeInsets.only(bottom: 5),
+                // padding: const EdgeInsets.only(bottom: 5),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                        height: 25,
-                      width: MediaQuery.of(context).size.width/1.40,
+                      width: MediaQuery.of(context).size.width/1.299,
                       child: TextFormField(
                         
                           style: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.black,fontSize: 15),
@@ -68,7 +69,7 @@ class _UpcimngTaskState extends State<UpcimngTask> {
                               hintStyle: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.black,fontSize: 15),),
                         ),
                     ),
-                    const SizedBox(width: 2,),
+                    // const SizedBox(width: 10,),
                     SizedBox(
                       height: 25,
                       width: MediaQuery.of(context).size.width/15.5,
@@ -87,7 +88,7 @@ class _UpcimngTaskState extends State<UpcimngTask> {
                   });
                 },
                 alignment: Alignment.topCenter,
-                icon: Icon(Icons.add,size: 20,)),
+                icon: Icon(Icons.add,size: 25,)),
                     ),
                   ],
                 ),
